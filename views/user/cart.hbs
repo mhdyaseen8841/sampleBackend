@@ -1,0 +1,169 @@
+<div class="container pt-3">
+<div class=" card card-cart">
+    <div class="row">
+        <div class="col-md-8 cart">
+            <div class="title-cart">
+                <div class="row">
+                    <div class="col">
+                        <h4><b class="bt">Shopping Cart</b></h4>
+                    </div>
+                    <div class="col align-self-center text-right text-muted">3 items</div>
+                </div>
+            </div>
+
+ {{#each products}}
+            <div class="row border-top border-bottom">
+                <div class="row main align-items-center">
+                    <div class="col-2"><img class="img-cart img-fluid"  src="/product-images/{{this.product._id}}1.jpg"></div>
+                    <div class="col">
+                        <div class="row text-muted">{{this.product.Name}}</div>
+                        <div class="row">{{this.product.Category}}</div>
+                    </div>
+                     
+                    <div class="col"> <button class=" cart-item-count mr-3 border"  onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../userId}}',-1)" >-</button>
+         <span style="width: 100px;" id="{{this.product._id}}">{{this.quantity}}</span> 
+          <button class=" cart-item-count ml-3 border" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../userId}}',1)">+</button></div>
+                    <div class="col">₹{{this.product.Price}}<a class="close" onclick="removeCartItem('{{this._id}}','{{this.product._id}}')">&#10005;</a></div>
+                </div>
+            </div>
+
+
+  {{/each}}
+   
+
+            <div class="back-to-shop"><a href="/">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+        </div>
+        <div class="col-md-4 summary">
+            <div>
+                <h5 class="h5-cart"><b class="bt">Summary</b></h5>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col" style="padding-left:0;">ITEMS 3</div>
+                
+                <div class="col text-right">₹<span id="total">{{total}}.00</span></div>
+            </div>
+            <form class="form-cart">
+                <p>SHIPPING</p> <select class="select-cart">
+                    <option class="text-muted">Standard-Delivery- ₹40.00</option>
+                </select>
+                <p>GIVE CODE</p> 
+                <div class="flexContainer">
+                  <input class="input-cart" id="code" placeholder="Enter your code" >
+                <button class="btn " onclick="coupon('{{allTotal}}')"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </form>
+
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                 <div class="col">PRODUCTS PRICE</div>
+                <div class="col text-right" >₹<span id="prodtotal">{{total}}.00</span></div>
+                </div>
+                {{#if orgTotal}}
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                 <div class="col">ORDER CHARGE</div>
+                <div class="col text-right" >₹<span id=""><del>40.00</del></span></div>
+                </div>
+                <p><i>Free Delivery On Order over 999</i></p>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right" >₹<span id="alltotal">{{allTotal}}.00</span></div>
+                
+                </div>
+                {{else}}
+                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                 <div class="col">ORDER CHARGE</div>
+                <div class="col text-right" >₹<span id="">40.00</span></div>
+                </div>
+                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right" >₹<span >{{allTotal}}.00</span></div>
+                </div>
+                {{/if}}
+            <a class="btn btn-cart" href="/place-order">CHECKOUT</a>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+<script>
+  function changeQuantity(cartId,proId,userId,count){
+   let quantity=parseInt(document.getElementById(proId).innerHTML)
+   count=parseInt(count)
+    $.ajax({
+      url:'/change-product-quantity',
+      
+      data:{
+        user:userId,
+        cart:cartId,
+        product:proId,
+        count:count,
+        quantity:quantity
+      },
+      method:'post',
+      success:(response)=>{
+        if(response.removeProduct){
+          alert("product removed from cart")
+          location.reload()
+        }
+        else{
+          document.getElementById(proId).innerHTML=quantity+count
+          document.getElementById('total').innerHTML=response.total
+          document.getElementById('prodtotal').innerHTML=response.total
+          document.getElementById('alltotal').innerHTML=response.allTotal
+        }
+      }    
+    })
+  }
+
+  function removeCartItem(cartId,proId){
+    
+ $.ajax({
+      url:'/remove-cart-products',
+      
+      data:{
+        cart:cartId,
+        product:proId,
+         
+      },
+      method:'post',
+      success:(response)=>{
+        if(response.removeProduct){
+          alert("product removed from cart")
+          location.reload()
+        }
+        
+      }    
+    })
+
+  }
+
+
+  function coupon(totalamt){
+  var inputVal = document.getElementById("code").value;
+  
+            alert(totalamt)
+        console.log(inputVal)
+            alert(inputVal);
+
+      $.ajax({
+      url:'/coupon-validation',
+      
+      data:{
+        couponCode:inputVal,
+        total:totalamt
+      },
+      method:'post',
+      success:(validity)=>{
+        alert(validity.total)
+        if(validity.response){
+          document.getElementById("alltotal").innerHTML=validity.total
+        }
+          
+        }
+  
+             })
+  }
+</script>

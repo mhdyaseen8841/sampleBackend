@@ -1,0 +1,45 @@
+  <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Your Orders</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+<div class="container-fluid">
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Address</th>
+      <th>Pincode</th>
+      <th>Mobile</th>     
+      <th>Amount</th>
+      <th>Payment</th>
+      <th>Status</th>
+      <th scope="col">Track</th>   
+    </tr>
+  </thead>
+  <tbody>
+      {{#each products}}
+    <tr>
+      <th scope="row">{{@key}}</th>
+      <td>{{this.date}}</td>
+      <td>{{this.deliveryDetails.address}}</td>
+      <td>{{this.deliveryDetails.pincode}}</td>
+      <td>{{this.deliveryDetails.mobile}}</td>
+      <td>Rs: {{this.totalAmount}}</td>
+      <td>{{this.paymentMethod}}</td>
+      <td>{{this.status}}</td>
+    <td><a type="button" class="btn btn-success" href="/view-order-products?id={{this._id}}">Track Order</a></td>
+      
+    </tr>
+    {{/each}}
+     
+   
+  </tbody>
+</table>
+</div>

@@ -1,0 +1,120 @@
+
+ {{#if index}}
+ <div class="header-to-bar "> HELLO EVERYONE! 25% Off All Products </div>
+ {{/if}}
+<!--new header-->
+
+<!-- Navbar -->
+<nav class="navbar navbar-user navbar-expand-lg navbar-light bg-light" style=" border-bottom: 2px solid rgb(236, 235, 235);">
+  <!-- Container wrapper -->
+  <div class="container">
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Navbar brand -->
+      <a class="navbar-brand mt-2 mt-lg-0" href="/">
+        <img
+          src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
+          height="15"
+          alt=""
+          loading="lazy"
+        />
+      </a>
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Products</a>
+        </li>
+        <li class="nav-item">
+             <a class="nav-link " href="/cart">Popular Products</a>
+          
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/orders">Orders</a>
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+
+    <!-- Right elements -->
+    <div class="d-flex align-items-center">
+      <!-- Icon -->
+      
+      <a class="text-reset me-3" href="/cart">
+        <i class="fas fa-shopping-cart"> <span class="badge badge-pill badge-primary" id="cart-count" >{{cartCount}}</span></i>
+      </a>
+
+
+
+
+      <!-- Notifications -->
+
+              <i class="fas fa-bell"></i>
+
+              {{#if user}}
+
+<a href="/user-profile" >
+<img src="user-image/{{user._id}}.jpg"
+          class="rounded-circle ml-3"
+          height="25"
+          alt=""
+          
+          loading="lazy"
+        /> 
+              </a>
+
+
+               
+          {{else}}
+               <i class="fas fa-user rounded-circle ml-3"
+          height="25"
+          alt=""
+          loading="lazy"></i>
+{{/if}}
+          <div class="dropdown ml-3 ">
+  <button class="btn btn-primary dropdown-toggle " type="button" id="dropdownMenuButton" style="font-size: small;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{#if user}}
+      {{user.Name}}
+      {{else}}
+       Account
+      {{/if}}
+   
+  </button>
+  
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    {{#if user}}
+    <a class="dropdown-item" href="/user-profile">Profile</a>
+    <a class="dropdown-item" href="/logout">Logout</a>
+    {{else}}
+    <a class="dropdown-item" href="/login">Login</a>
+    <a class="dropdown-item" href="/signup">Signup</a>
+
+  {{/if}}
+  
+    
+  </div>
+</div>
+
+
+      
+    <!-- Right elements -->
+
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+
+
